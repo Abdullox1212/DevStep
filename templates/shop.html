@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shop - DevStep</title>
+    <style>
+        /* Umumiy uslub */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header uslubi */
+        .header {
+            background-color: #fff;
+            padding: 15px 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header-nav a {
+            margin: 0 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+
+        }
+
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        a h2 {
+            text-decoration: none;
+            color: #333;
+            font-family: 'Courier New', Courier, monospace;
+
+
+        }
+
+        a:hover {
+            color: #b4b4b4;
+            text-decoration: none;
+            transition: color 0.5s ease;
+
+        }
+
+        nav a {
+            margin: 0 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+
+        .header-nav a:hover {
+            color: #FF5733;
+        }
+
+        .post-button {
+            padding: 10px 20px;
+            color: #ff5733;
+            border: 2px solid #ff5733;
+            background: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 20px;
+        }
+
+
+
+        .container {
+            padding-top: 70px;
+            margin: 0 auto;
+            max-width: 1280px !important;
+        }
+
+        .product-card {
+            /* width: 305px; */
+            /* height: 262.61px; */
+            padding: 65px;
+            margin: 10px;
+            background: white;
+            border-radius: 8px;
+            display: inline-block;
+            text-align: center;
+        }
+
+
+        .product-image {
+            width: 160px;
+            height: 146px;
+            object-fit: contain;
+        }
+
+        .buy-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Modal uslubi */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .confirm-button,
+        .cancel-button {
+            padding: 10px 20px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .confirm-button {
+            background-color: #FF5733;
+            color: white;
+        }
+
+        .cancel-button {
+            background-color: #FFF;
+            color: #FF5733;
+            border: 1px solid #FF5733;
+        }
+
+        .black {
+            background-color: rgba(128, 128, 128, 0.158);
+        }
+
+
+        .texts {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <div class="header">
+        <div class="header-logo">
+            <a href="{% url 'main' %}">
+                <h2 style="margin: 0;">DevStep</h2>
+            </a>
+
+        </div>
+        <div class="header-nav">
+            <a href="{% url 'main' %}">Asosiy</a>
+            <a href="{% url 'direction_list' %}">O'rganish</a>
+            <a href="{% url 'shop' %}">Shop</a>
+        </div>
+        <a class="post-button" href="{% url 'logout' %}">Chiqish</a>
+    </div>
+
+
+    <!-- Asosiy mazmun qismi -->
+    <div class="container">
+        <div class="texts">
+
+            <h1>Magazin</h1>
+            <a href="{% url 'history' %}">
+                <h2>Tarix</h2>
+            </a>
+        </div>
+
+        {% for product in products %}
+        {% if product.stock != 0 %}
+        <div class="product-card" onclick="openModal('{{ product.id }}', '{{ product.name }}', '{{ product.price }}')">
+            <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="product-image">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.price }} Coins</p>
+            <p>{{ product.stock }} dona mavjud</p>
+        </div>
+        {% else %}
+        <div class="product-card black">
+            <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="product-image">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.price }} Coins</p>
+            <h4>QOLMADI</h3>
+
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Modal oynasi -->
+    <div id="purchaseModal" class="modal">
+        <div class="modal-content">
+            <h3>Xaridni tasdiqlaysizmi?</h3>
+            <p id="product-name"></p>
+            <p id="product-price"></p>
+            <button class="confirm-button" id="confirm-purchase">Ha, sotib olaman</button>
+            <button class="cancel-button" onclick="closeModal()">Bekor qilish</button>
+        </div>
+    </div>
+
+    <script>
+        function openModal(productId, productName, productPrice) {
+            document.getElementById("product-name").textContent = "Tovar nomi: " + productName;
+            document.getElementById("product-price").textContent = "Narxi: " + productPrice + " Coins";
+            document.getElementById("confirm-purchase").onclick = function () {
+                window.location.href = "/shop/buy/" + productId + "/";
+            };
+            document.getElementById("purchaseModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("purchaseModal").style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            var modal = document.getElementById("purchaseModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oylar - DevStep</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="header">
+        <div class="header-logo">
+            <a href="{% url 'main' %}"><h2 style="margin: 0;">DevStep</h2></a>
+
+        </div>
+        <div class="header-nav">
+            <a href="{% url 'main' %}">Asosiy</a>
+            <a href="{% url 'direction_list' %}">O'rganish</a>
+            <a href="{% url 'shop' %}">Shop</a>
+        </div>
+        <a class="post-button" href="{% url 'logout' %}">Chiqish</a>
+    </div>
+    <main class="container content">
+        <h2>{{ direction.name }} Oylari</h2>
+        <div class="card-container">
+            {% for month in months %}
+            <div class="card">
+                <h3>{{ month.name }}</h3>
+                <a href="{% url 'lesson_list' direction.id month.id %}" class="button">Darslarni ko'rish</a>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+</body>
+</html>

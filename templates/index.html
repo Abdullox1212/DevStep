@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main - DevStep</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<style></style>
+
+<body>
+    <div class="header">
+        <div class="header-logo">
+            <a href="{% url 'main' %}"><h2 style="margin: 0;">DevStep</h2></a>
+        </div>
+        <div class="header-nav">
+            <a href="{% url 'main' %}">Asosiy</a>
+            <a href="{% url 'direction_list' %}">O'rganish</a>
+            <a href="{% url 'shop' %}">Shop</a>
+        </div>
+        <a class="post-button" href="{% url 'logout' %}">Chiqish</a>
+    </div>
+
+    <div class="container">
+        <div class="father-div">
+            <aside class="profile-section">
+                <h2>🧑‍💻 Profil</h2>
+                <div class="profile-card">
+                    <img src="../static/img/user.jpg" alt="Profile Image" class="profile-image">
+                    <div class="profile-details">
+                        <h3 class="profile-name">{{ user.name }}</h3>
+                        <p class="profile-info">{{ user.group.name }} | {{ user.group.teacher }} | {{ user.group.time }}
+                        </p>
+                    </div>
+                    {% if user.level == 1 %}
+                    <div class="levels">Darajalar: ⭐</div>
+                    {% elif user.level == 2 %}
+                    <div class="levels">Darajalar: ⭐⭐</div>
+                    {% elif user.level == 3 %}
+                    <div class="levels">Darajalar: ⭐⭐⭐</div>
+                    {% elif user.level == 4 %}
+                    <div class="levels">Darajalar: ⭐⭐⭐⭐</div>
+                    {% elif user.level == 5 %}
+                    <div class="levels">Darajalar: ⭐⭐⭐⭐⭐</div>
+                    {% endif %}
+
+                    <div class="stats">
+                        <div class="stat-item">{{ user.total_coins }}<span class="icon">🪙</span></div>
+                    </div>
+                    <div class="attendance">
+                        <h3>100🪙 To'plash!</h3>
+                        <p>100ta coin to'plash chellange'da qatnashing!</p><br>
+                        <div class="progress-bar">
+                            {% if user.total_coins < 100 %} <div class="progress-fill"
+                                style="width: {{ user.total_coins }}%;">
+                        </div>
+                        <p>{{ user.total_coins }}/100</p><br>
+                        {% else %}
+                        <div class="progress-fill" style="width: 100%;"></div>
+                        <p>100/100</p><br>
+                        {% endif %}
+                    </div>
+                </div>
+                <button class="more">Ko'proq</button>
+        </div>
+        </aside>
+
+        <main class="main-section">
+            <h2>🎉 Yangiliklar</h2>
+            <section class="news-section">
+                <div class="slider">
+                    <div class="slides">
+                        {% for image in images %}
+                        <div class="slide">
+                            <img src="{{ image.photo.url }}" alt="{{ image.title }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button class="prev-btn">◀</button>
+                    <button class="next-btn">▶</button>
+                </div>
+
+            </section>
+        </main>
+
+    </div>
+    </div>
+    <script>
+        // HTML elementlarni olish
+        const slidesContainer = document.querySelector('.slides'); // Nomi o'zgartirildi
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+
+        // Slayder holati uchun o'zgaruvchilar
+        let currentIndex = 0; // Hozirgi rasm indexi
+        const totalSlides = document.querySelectorAll('.slide').length; // Rasmlar soni
+
+        // Slayder pozitsiyasini yangilash
+        function updateSlidePosition() {
+            const offset = -currentIndex * 150; // Har bir rasm kengligi 100% hisoblanadi
+            slidesContainer.style.transform = `translateX(${offset}%)`; // slidesContainer ishlatilmoqda
+        }
+
+        // Oldingi tugma uchun event listener
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; // Oldingi rasmga o'tish
+            updateSlidePosition();
+        });
+
+        // Keyingi tugma uchun event listener
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalSlides; // Keyingi rasmga o'tish
+            updateSlidePosition();
+        });
+
+        // Avtomatik slayder
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlidePosition();
+        }, 5000); // Har 5 soniyada slayder avtomatik o'zgaradi
+
+    </script>
+</body>
+
+</html>

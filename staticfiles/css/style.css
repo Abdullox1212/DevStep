@@ -1,0 +1,330 @@
+/* style.css */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+.logo span {
+    color: #ff5733;
+}
+
+nav a {
+    margin: 0 20px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.post-button {
+    padding: 10px 20px;
+    color: #ff5733;
+    border: 2px solid #ff5733;
+    background: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+
+}
+
+
+.profile-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    height: 550px;
+
+}
+
+.profile-image {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 1px solid black;
+}
+
+.profile-details {
+    margin-bottom: 10px;
+}
+
+.profile-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.profile-info {
+    color: #777;
+    font-size: 14px;
+}
+
+.levels {
+    color: #ffcc00;
+    font-size: 16px;
+    margin: 15px 0;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff5733;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100px;
+}
+
+.icon {
+    margin-left: 5px;
+}
+
+
+.attendance{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.attendance h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    background: #ddd;
+    border-radius: 5px;
+    height: 8px;
+    width: 100%;
+}
+
+.progress-fill {
+    background: #4caf50;
+    height: 100%;
+    border-radius: 5px;
+}
+
+.more {
+    background: #3b3b3b;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+
+.news-section {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.father-div {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 50px;
+}
+
+.news-section h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.news-item h3 {
+    font-size: 18px;
+    color: #ff5733;
+    margin-bottom: 5px;
+}
+
+.courses-section {
+    display: flex;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.course {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.course-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 8px 16px;
+    background: #ff5733;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+
+
+
+
+
+
+
+.header {
+    background-color: #fff;
+    padding: 15px 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.header-nav a {
+    margin: 0 15px;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.header-nav a:hover {
+    color: #FF5733;
+}
+
+
+.news-item img {
+    background-repeat: repeat;
+    background-size: cover;
+    
+}
+
+.news-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+.slider {
+    position: relative;
+    width: 100%; /* Slayder kengligi */
+    max-width: 800px; /* Maksimal kenglikni oshirdik */
+    height: 500px; /* Balandlikni oshirdik */
+    margin: auto;
+    overflow: hidden;
+    border-radius: 15px; /* Yumaloq burchaklar */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sochma soyalar */
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    flex-shrink: 0;
+    height: 300px; /* Slayder balandligi bilan bir xil */
+}
+
+.slide img {
+    /* width: 100%; */
+    /* height: 100%; */
+    object-fit: cover;
+    display: block;
+}
+
+.prev-btn, .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1000;
+    border-radius: 50%;
+}
+
+.prev-btn {
+    left: 10px;
+}
+
+.next-btn {
+    right: 10px;
+}
+
+.prev-btn:hover, .next-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+

@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dars - DevStep</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="header">
+        <div class="header-logo">
+            <a href="{% url 'main' %}"><h2 style="margin: 0;">DevStep</h2></a>
+
+        </div>
+        <div class="header-nav">
+            <a href="{% url 'main' %}">Asosiy</a>
+            <a href="{% url 'direction_list' %}">O'rganish</a>
+            <a href="{% url 'shop' %}">Shop</a>
+        </div>
+        <a class="post-button" href="{% url 'logout' %}">Chiqish</a>
+    </div>
+    <main class="container content">
+        <div class="lesson-detail">
+            <h2>{{ lesson.title }}</h2>
+            <p>{{ lesson.description }}</p>
+
+        </div>
+        
+        
+        <div class="task-upload">
+            <h3>Vazifalarni yuborish</h3>
+            <form method="post" enctype="multipart/form-data" action="{% url 'submit_task' lesson.id %}">
+                {% csrf_token %}
+                
+                <div class="upload-section">
+                    <label for="file-upload" class="upload-label">
+                        Faylni yuklash uchun shu yerga bosing
+                    </label>
+                    <input type="file" name="zip_file" id="file-upload" hidden>
+                </div>
+        
+                <div class="link-section">
+                    <input type="url" name="link" placeholder="Linkni kiriting">
+                </div>
+        
+                <div class="comment-section">
+                    <textarea name="comment" placeholder="Izoh yozing"></textarea>
+                </div>
+        
+                <div class="submit-section">
+                    <button type="submit" class="btn-submit">Yuborish</button>
+                </div>
+            </form>
+        </div>
+        
+    </main>
+
+</body>
+</html>

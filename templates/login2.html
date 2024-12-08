@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <img src="../static/img/Logo.svg" alt="">
+                </div>
+                <div class="lang">
+                    <img src="../static/img/icon.svg" alt="">
+                    <h3>O’zb</h3>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section id="hero">
+            <div class="container">
+                <div class="hero">
+                    <div class="register-box">
+                        <div class="register-head">
+                            <img src="../static/img/Logo.svg" alt="">
+                            <img src="../static/img/Frame 36708.svg" alt="">
+                        </div>
+                        <div class="register-main">
+                            <h2>Spacega xush kelibsiz</h2>
+                            <div class="main-bittons">
+                                <button>O’quvchiman</button>
+                                <button>Ota-onaman</button>
+                            </div>
+                            <div class="main-inputs">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <label for="modme_id"></label>
+                                        <input type="text" id="modme_id" name="modme_id" required><br><br>
+                                        
+                                        <label for="password">  </label>
+                                        <input type="password" id="password" name="password" required><br><br>
+                                        
+                                        <button type="submit">Login</button>
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
