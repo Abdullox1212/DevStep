@@ -203,42 +203,85 @@ def lesson_detail(request, direction_id, month_id, lesson_id):
 
 
 
-from django.core.mail import send_mail
-from django.http import JsonResponse
+
+
+import os
 import requests
+from django.shortcuts import get_object_or_404, render
+from django.contrib import messages
+from .models import Lesson, User
 
+# Telegramga fayl yoki link yuborish funksiyasi
+def send_file_to_telegram(bot_token, chat_id, file_path=None, caption=None):
+    url = f"https://api.telegram.org/bot{bot_token}/sendDocument" if file_path else f"https://api.telegram.org/bot{bot_token}/sendMessage"
+    if file_path:
+        with open(file_path, 'rb') as file:
+            files = {'document': file}
+            data = {'chat_id': chat_id, 'caption': caption}
+            response = requests.post(url, files=files, data=data)
+    else:
+        data = {'chat_id': chat_id, 'text': caption}
+        response = requests.post(url, data=data)
+    return response
 
-def send_to_telegram(bot_token, chat_id, message):
-    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-    data = {'chat_id': chat_id, 'text': message}
-    requests.post(url, data=data)
-
+# Vazifa jo'natish funksiyasi
 def submit_task(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
     modme_id = request.session.get('modme_id')
     user = User.objects.get(modme_id=modme_id)
+
     if request.method == "POST":
-        zip_file = request.FILES.get('zip_file')
-        link = request.POST.get('link')
-        comment = request.POST.get('comment')
-        
-        # Adminga xabar yuborish
-        admin_message = f"""
-        Vazifa yuborildi:
-        - O'quvchi: {user.name}
-        - Dars: {lesson.title}
-        - Guruh: {user.group.name}
-        - Izoh: {comment}
-        """
+        zip_file = request.FILES.get('zip_file')  # Foydalanuvchi yuklagan fayl
+        link = request.POST.get('link')  # Foydalanuvchi yuborgan link
+        comment = request.POST.get('comment')  # Izoh
+
+        # Faylni vaqtincha saqlash va yuborish
         if zip_file:
-            admin_message += f"\nFayl: {zip_file.name}"
-        if link:
-            admin_message += f"\nLink: {link}"
-        
-        # Telegram botga yuborish yoki email jo'natish (masalan):
-        send_to_telegram("7468217626:AAEI6PsD5wjUlXlRDcdftxi2vnn9udebj80", "7149602547", admin_message)
-        
-        # Sahifaga qaytarish
-        return redirect('direction_list')
-    
-    return JsonResponse({'error': "Faqat POST so'rovlari qabul qilinadi!"})
+            file_path = f"/tmp/{zip_file.name}"
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+            with open(file_path, 'wb') as f:
+                for chunk in zip_file.chunks():
+                    f.write(chunk)
+
+            # Telegramga yuboriladigan caption
+            caption = f"""
+Vazifa yuborildi:
+- O'quvchi: {user.name}
+- Dars: {lesson.title}
+- Guruh: {user.group.name}
+- Izoh: {comment or "Yo'q"}
+            """
+            send_file_to_telegram(
+                bot_token="7468217626:AAEI6PsD5wjUlXlRDcdftxi2vnn9udebj80",
+                chat_id="7149602547",
+                file_path=file_path,
+                caption=caption.strip()
+            )
+            messages.success(request, "Fayl muvaffaqiyatli yuborildi!")
+            return redirect("direction_list")
+
+        # Linkni yuborish
+        elif link:
+            caption = f"""
+Yangi vazifa yuborildi:
+- O'quvchi: {user.name}
+- Dars: {lesson.title}
+- Guruh: {user.group.name}
+- Izoh: {comment or "Yo'q"}
+- Link: {link}
+            """
+            send_file_to_telegram(
+                bot_token="7468217626:AAEI6PsD5wjUlXlRDcdftxi2vnn9udebj80",
+                chat_id="7149602547",
+                caption=caption.strip()
+            )
+            messages.success(request, "Link muvaffaqiyatli yuborildi!")
+            return redirect("direction_list")
+
+        # Ikkalasi ham yo'q bo'lsa
+        else:
+            messages.error(request, "Fayl yoki link yuborilmadi! Iltimos, qayta urining.")
+            return render(request, "lesson_detail.html", {"lesson": lesson})
+
+    return render(request, "lesson_detail.html", {"lesson": lesson})
