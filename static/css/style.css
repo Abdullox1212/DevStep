@@ -445,127 +445,123 @@ button {
 
 
 
-
-/* Reset styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    background-color: #f9f9f9;
-    color: #333;
-}
-
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-
-
 .content {
     padding: 20px;
     display: flex;
     justify-content: center;
     flex-direction: column;
-}
 
+    font-family: 'Arial', sans-serif;
+}
 
 .card-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    margin-top: 20px;
 }
 
 .card {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    width: 300px;
+    background: linear-gradient(135deg, #ffffff, #f0f4f8);
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    width: 320px;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card h3 {
-    margin-bottom: 10px;
-    font-size: 20px;
+    margin-bottom: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
 }
 
 .card p {
-    margin-bottom: 15px;
-    color: #555;
+    margin-bottom: 20px;
+    color: #666;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .button {
     display: inline-block;
-    background: #0078d7;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
     color: white;
-    padding: 10px 15px;
+    padding: 12px 18px;
     text-decoration: none;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: background 0.3s;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .button:hover {
-    background: #005bb5;
+    background: linear-gradient(135deg, #5b0eab, #1e5ec9);
+    transform: translateY(-2px);
 }
-
-.footer {
-    background: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    margin-top: 20px;
-    font-size: 14px;
-}
-
 
 .lesson-detail {
     margin-bottom: 20px;
+    color: #444;
+    font-size: 16px;
 }
 
 .task-upload {
-    border: 1px solid #e0e0e0;
+    border: none;
     padding: 20px;
-    border-radius: 10px;
-    background-color: #f9f9f9;
+    border-radius: 15px;
+    background: #f7f9fc;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.05);
+    text-align: center;
 }
 
 .task-upload h3 {
-    font-size: 18px;
-    margin-bottom: 20px;
+    font-size: 20px;
+    margin-bottom: 15px;
     color: #333;
 }
 
 .upload-section {
     text-align: center;
-    border: 2px dashed #ccc;
+    border: 2px dashed #8e44ad;
     padding: 20px;
     border-radius: 10px;
     cursor: pointer;
     margin-bottom: 20px;
+    background-color: #fcf8ff;
+    transition: background 0.3s ease;
+}
+
+.upload-section:hover {
+    background-color: #f0e6ff;
 }
 
 .upload-label img {
-    width: 50px;
+    width: 60px;
     margin-bottom: 10px;
+    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.1));
 }
 
 .link-section input,
 .comment-section textarea {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #fdfdfd;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .submit-section {
@@ -575,18 +571,23 @@ body {
 .submit-section p {
     font-size: 14px;
     margin-bottom: 10px;
+    color: #666;
 }
 
 .btn-submit {
-    background-color: #ff5722;
+    background: linear-gradient(135deg, #f44336, #ff7961);
     color: white;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .btn-submit:hover {
-    background-color: #e64a19;
+    background: linear-gradient(135deg, #d32f2f, #f05a4b);
+    transform: translateY(-2px);
 }
