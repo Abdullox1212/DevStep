@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import User, Product, PurchaseHistory, NewsImage, Direction, Month, Lesson
+from .models import User, Product, PurchaseHistory, NewsImage, Direction, Month, Lesson, Group
 from django.contrib import messages
 import requests
 
@@ -59,9 +59,14 @@ def main_view(request):
         return redirect('login')  # Agar user topilmasa, login sahifasiga qaytaramiz
     
 
+def group_list(request):
+    groups = Group.objects.all()  # Barcha guruhlarni olish
+    return render(request, 'group_dashboard.html', {'groups': groups})
 
-def student_list(request):
-    students = User.objects.all()
+
+def student_list(request, group_id):
+    group = get_object_or_404(Group, id=group_id) 
+    students = User.objects.filter(group=group)
     return render(request, 'dashboard.html', {'students': students})
 
 def update_coins(request, student_id, amount):
@@ -80,7 +85,9 @@ def update_coins(request, student_id, amount):
         return redirect('dashboard')
 
 
-    
+
+
+
 
     
 def shop_view(request):
