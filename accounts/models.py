@@ -86,3 +86,13 @@ class Lesson(models.Model):  # Darslar
 
     def __str__(self):
         return f"{self.title} ({self.month.name})"    
+    
+from datetime import date
+
+class Attendance(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Foydalanuvchi bilan birga bog'lanadi
+    date = models.DateField(default=date.today)
+    status = models.CharField(max_length=3, choices=[('B', 'Bor'), ('Y', 'Yo\'q')])  # Statuslar: Bor yoki Yo'q
+
+    def __str__(self):
+        return f"{self.user.username} - {self.date} - {self.status}"

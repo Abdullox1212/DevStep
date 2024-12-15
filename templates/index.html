@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main - DevStep</title>
+    <link rel="website icon" type="png" href="{% static 'img/icon.png' %}">
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
@@ -14,7 +16,9 @@
 <body>
     <div class="header">
         <div class="header-logo">
-            <a href="{% url 'main' %}"><h2 style="margin: 0;">DevStep</h2></a>
+            <a href="{% url 'main' %}">
+                <img src="{% static 'img/logo.svg' %}" alt="">
+            </a>
         </div>
         <div class="header-nav">
             <a href="{% url 'main' %}">Asosiy</a>
@@ -48,7 +52,7 @@
                     {% endif %}
 
                     <div class="stats">
-                        <div class="stat-item">{{ user.total_coins }}<span class="icon">🪙</span></div>
+                        <div class="stat-item">{{ user.total_coins }}<span class="icon">🌕</span></div>
                     </div>
                     <div class="attendance">
                         <h3>100🪙 To'plash!</h3>
@@ -82,46 +86,58 @@
                     <button class="prev-btn">◀</button>
                     <button class="next-btn">▶</button>
                 </div>
-
             </section>
         </main>
 
     </div>
     </div>
     <script>
-        // HTML elementlarni olish
-        const slidesContainer = document.querySelector('.slides'); // Nomi o'zgartirildi
+        const slides = document.querySelector('.slides');
+        const slide = document.querySelectorAll('.slide');
         const prevBtn = document.querySelector('.prev-btn');
         const nextBtn = document.querySelector('.next-btn');
 
-        // Slayder holati uchun o'zgaruvchilar
-        let currentIndex = 0; // Hozirgi rasm indexi
-        const totalSlides = document.querySelectorAll('.slide').length; // Rasmlar soni
+        let currentIndex = 0;
+        let slideInterval;
 
-        // Slayder pozitsiyasini yangilash
-        function updateSlidePosition() {
-            const offset = -currentIndex * 150; // Har bir rasm kengligi 100% hisoblanadi
-            slidesContainer.style.transform = `translateX(${offset}%)`; // slidesContainer ishlatilmoqda
+        // Sliderni yangilash funksiyasi
+        function updateSliderPosition() {
+            const offset = -currentIndex * 100;
+            slides.style.transform = `translateX(${offset}%)`;
         }
 
-        // Oldingi tugma uchun event listener
-        prevBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; // Oldingi rasmga o'tish
-            updateSlidePosition();
-        });
+        // Keyingi slayderga o'tish
+        function nextSlide() {
+            currentIndex = (currentIndex === slide.length - 1) ? 0 : currentIndex + 1;
+            updateSliderPosition();
+        }
 
-        // Keyingi tugma uchun event listener
+        // Oldingi slayderga o'tish
+        function prevSlide() {
+            currentIndex = (currentIndex === 0) ? slide.length - 1 : currentIndex - 1;
+            updateSliderPosition();
+        }
+
+        // Tugmalar uchun Event Listener
         nextBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % totalSlides; // Keyingi rasmga o'tish
-            updateSlidePosition();
+            clearInterval(slideInterval); // Qo'lda bosilganda avtomatikni to'xtatib, qayta boshlash
+            nextSlide();
+            startAutoSlide();
         });
 
-        // Avtomatik slayder
-        setInterval(() => {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            updateSlidePosition();
-        }, 5000); // Har 5 soniyada slayder avtomatik o'zgaradi
+        prevBtn.addEventListener('click', () => {
+            clearInterval(slideInterval);
+            prevSlide();
+            startAutoSlide();
+        });
 
+        // Avtomatik aylanishni boshlash
+        function startAutoSlide() {
+            slideInterval = setInterval(nextSlide, 3000); // Har 3 sekundda o'tish
+        }
+
+        // Sliderni avtomatik aylanishini boshlash
+        startAutoSlide();
     </script>
 </body>
 

@@ -8,16 +8,17 @@
 }
 
 body {
-    background-color: #f4f6f9;
+    background: linear-gradient(to right, #6A5ACD, #89CFF0);
     color: #333;
 }
 
 header {
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background-color: #fff;
+    background: linear-gradient(to right, #6A5ACD, #89CFF0);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -25,6 +26,12 @@ header {
     font-size: 28px;
     font-weight: bold;
     color: #333;
+}
+
+
+h2 {
+    color: white;
+
 }
 
 .logo span {
@@ -40,14 +47,13 @@ a h2{
     text-decoration: none;
     color: #333;
     font-family: 'Courier New', Courier, monospace;
+    
 
 
 }
 
 a:hover {
-    color: #b4b4b4;
     text-decoration: none;
-    transition: color 0.5s ease;
 
 }
 
@@ -83,13 +89,19 @@ nav a {
 
 
 .profile-card {
-    background: #fff;
+    /* backdrop-filter: blur(10px); */
+    background-color: rgba(255, 255, 255, 0.13);
     border-radius: 8px;
+    border: 2px solid rgba(223, 223, 223, 0.637);
     padding: 25px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     text-align: center;
-    height: 550px;
+    height: 502px;
 
+}
+
+.profile-card h3, .profile-card p{
+    color: white;
 }
 
 .profile-image {
@@ -171,10 +183,10 @@ nav a {
 }
 
 .more {
-    background: #3b3b3b;
+    background: #ffffff23;
     color: #fff;
     padding: 10px 20px;
-    border: none;
+    border: 2px solid #fff;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 40px;
@@ -183,10 +195,12 @@ nav a {
 
 
 .news-section {
-    background: #fff;
     padding: 25px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.13);
+    border-radius: 8px;
+    border: 2px solid rgba(223, 223, 223, 0.637);
 }
 
 .father-div {
@@ -200,6 +214,7 @@ nav a {
 .news-section h2 {
     font-size: 22px;
     margin-bottom: 15px;
+    color: white;
 }
 
 .news-item h3 {
@@ -246,7 +261,6 @@ button {
 
 
 .header {
-    background-color: #fff;
     padding: 15px 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -269,9 +283,10 @@ button {
 
 .header-nav a {
     margin: 0 15px;
-    color: #333;
+    color: #ffffff;
     text-decoration: none;
     font-weight: bold;
+    transition: all 0.3s ease;
 }
 
 .header-nav a:hover {
@@ -294,33 +309,33 @@ button {
 
 
 
+
 .slider {
     position: relative;
-    width: 100%; /* Slayder kengligi */
-    max-width: 800px; /* Maksimal kenglikni oshirdik */
-    height: 500px; /* Balandlikni oshirdik */
-    margin: auto;
     overflow: hidden;
-    border-radius: 15px; /* Yumaloq burchaklar */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sochma soyalar */
+    width: 100%;
+    max-width: 800px; /* Maksimal kenglik */
+    margin: 0 auto;
+    /* height: 499px; */
 }
 
 .slides {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    width: 100%;
 }
 
 .slide {
     min-width: 100%;
-    flex-shrink: 0;
-    height: 300px; /* Slayder balandligi bilan bir xil */
+    display: flex;
+    justify-content: center; /* Rasmlarni gorizontal markazlash */
+    align-items: center; /* Rasmlarni vertikal markazlash */
 }
 
 .slide img {
-    /* width: 100%; */
-    /* height: 100%; */
-    object-fit: cover;
-    display: block;
+    width: 100%; /* Kenglikni konteynerga moslashtirish */
+    height: 100%; /* Balandlikni konteynerga moslashtirish */
+    
 }
 
 .prev-btn, .next-btn {
@@ -330,10 +345,11 @@ button {
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    z-index: 1000;
     border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 10;
 }
 
 .prev-btn {
@@ -347,6 +363,12 @@ button {
 .prev-btn:hover, .next-btn:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
+
+
+
+
+
+
 
     @media (max-width: 768px) {
         .header {
@@ -394,6 +416,7 @@ button {
             flex-direction: column;
             align-items: center;
             text-align: center;
+            height: 550px;
         }
 
         .profile-image {
@@ -441,6 +464,13 @@ button {
             width: 90%; /* Mobil uchun mos kenglik */
             margin: 0 auto;
         }
+
+        .card-container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
     }
 
 
@@ -463,8 +493,8 @@ button {
 }
 
 .card {
-    background: linear-gradient(135deg, #ffffff, #f0f4f8);
-    border: none;
+    background:rgba(255, 255, 255, 0);
+    border: 2px solid white ;
     border-radius: 15px;
     padding: 20px;
     width: 320px;
@@ -475,39 +505,43 @@ button {
 
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to right,  #89CFF0, #6A5ACD,);
+
 }
 
 .card h3 {
     margin-bottom: 15px;
     font-size: 22px;
     font-weight: bold;
-    color: #333;
+    color: #ffffff;
 }
 
 .card p {
     margin-bottom: 20px;
-    color: #666;
+    color: #ffffff;
     font-size: 16px;
     line-height: 1.5;
 }
 
 .button {
     display: inline-block;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    background: rgba(255, 255, 255, 0.212);
     color: white;
     padding: 12px 18px;
     text-decoration: none;
     border-radius: 30px;
     font-size: 16px;
     font-weight: bold;
-    transition: background 0.3s, transform 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid white;
+
 }
 
 .button:hover {
-    background: linear-gradient(135deg, #5b0eab, #1e5ec9);
-    transform: translateY(-2px);
+    background: linear-gradient(to right, #6A5ACD, #89CFF0);
+    transition: all 5s ease;
+
+    /* transform: translateY(-2px); */
 }
 
 .lesson-detail {

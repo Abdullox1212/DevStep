@@ -1,21 +1,24 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="uz">
 
 <head>
     <meta charset="UTF-8">
     <title>Shop - DevStep</title>
+    <link rel="website icon" type="png" href="{% static 'img/icon.png' %}">
+
     <style>
         /* Umumiy uslub */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background: linear-gradient(to right, #6A5ACD, #89CFF0);
             margin: 0;
             padding: 0;
         }
 
         /* Header uslubi */
         .header {
-            background-color: #fff;
+            background: linear-gradient(to right, #6A5ACD, #89CFF0);
             padding: 15px 30px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
@@ -40,9 +43,10 @@
 
         .header-nav a {
             margin: 0 15px;
-            color: #333;
+            color: #ffffff;
             text-decoration: none;
             font-weight: bold;
+            transition: all 0.3s ease;
 
         }
 
@@ -94,7 +98,8 @@
 
 
         .container {
-            padding-top: 70px;
+            padding: 30px 0px;
+            /*yangi */
             margin: 0 auto;
             max-width: 1280px !important;
         }
@@ -104,12 +109,18 @@
             /* height: 262.61px; */
             padding: 65px;
             margin: 10px;
-            background: white;
+            background: rgba(255, 255, 255, 0.144);
+
             border-radius: 8px;
             display: inline-block;
             text-align: center;
+            cursor: pointer;
         }
 
+
+        .product-card h3, .product-card p {
+            color: white;
+        }
 
         .product-image {
             width: 160px;
@@ -170,7 +181,11 @@
         }
 
         .black {
-            background-color: rgba(128, 128, 128, 0.158);
+            border: 2px solid rgb(255, 255, 255);
+            background: rgba(255, 255, 255, 0.514);
+
+
+            cursor: no-drop;
         }
 
 
@@ -178,6 +193,124 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+        }
+
+
+        .texts h1 {
+            color: white;
+        }
+
+
+        @media (max-width: 768px) {
+            .header {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+            }
+
+            .header-logo h2 {
+                font-size: 24px;
+            }
+
+            .header-nav {
+                margin-top: 10px;
+            }
+
+            .header-nav a {
+                margin: 0 5px;
+                font-size: 14px;
+            }
+
+            .post-button {
+                margin-top: 10px;
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .father-div {
+                display: flex;
+                flex-direction: column;
+            }
+
+            aside.profile-section {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .profile-card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .profile-image {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+            }
+
+            .profile-details {
+                margin-top: 10px;
+            }
+
+            .progress-bar {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .progress-fill {
+                height: 10px;
+            }
+
+            .main-section {
+                display: none;
+            }
+
+            .news-section .slider {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .prev-btn,
+            .next-btn {
+                font-size: 20px;
+                margin: 5px;
+            }
+
+            .slides {
+                display: flex;
+                overflow-x: scroll;
+                scroll-behavior: smooth;
+            }
+
+            .slide {
+                flex: 0 0 auto;
+                width: 90%;
+                /* Mobil uchun mos kenglik */
+                margin: 0 auto;
+            }
+
+
+            .big-box {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        .big-box {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: start;
         }
     </style>
 </head>
@@ -189,7 +322,7 @@
     <div class="header">
         <div class="header-logo">
             <a href="{% url 'main' %}">
-                <h2 style="margin: 0;">DevStep</h2>
+                <img src="{% static 'img/logo.svg' %}" alt="">
             </a>
 
         </div>
@@ -212,24 +345,27 @@
             </a>
         </div>
 
-        {% for product in products %}
-        {% if product.stock != 0 %}
-        <div class="product-card" onclick="openModal('{{ product.id }}', '{{ product.name }}', '{{ product.price }}')">
-            <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="product-image">
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.price }} Coins</p>
-            <p>{{ product.stock }} dona mavjud</p>
-        </div>
-        {% else %}
-        <div class="product-card black">
-            <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="product-image">
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.price }} Coins</p>
-            <h4>QOLMADI</h3>
+        <div class="big-box">
+            {% for product in products %}
+            {% if product.stock != 0 %}
+            <div class="product-card"
+                onclick="openModal('{{ product.id }}', '{{ product.name }}', '{{ product.price }}')">
+                <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="product-image">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.price }} Coins</p>
+                <p>{{ product.stock }} dona mavjud</p>
+            </div>
+            {% else %}
+            <div class="product-card black">
+                <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="product-image">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.price }} Coins</p>
+                <h3>QOLMADI</h3>
 
+            </div>
+            {% endif %}
+            {% endfor %}
         </div>
-        {% endif %}
-        {% endfor %}
     </div>
 
     <!-- Modal oynasi -->

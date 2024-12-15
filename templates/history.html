@@ -1,21 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="uz">
 
 <head>
     <meta charset="UTF-8">
     <title>History - DevStep</title>
+    <link rel="website icon" type="png" href="{% static 'img/icon.png' %}">
+
     <style>
         /* Umumiy uslub */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background: linear-gradient(to right, #6A5ACD, #89CFF0);
+
             margin: 0;
             padding: 0;
         }
 
         /* Header uslubi */
         .header {
-            background-color: #fff;
+            background: linear-gradient(to right, #6A5ACD, #89CFF0);
+
             padding: 15px 30px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
@@ -38,9 +43,10 @@
 
         .header-nav a {
             margin: 0 15px;
-            color: #333;
+            color: #ffffff;
             text-decoration: none;
             font-weight: bold;
+            transition: all 0.3s ease;
         }
 
         .header-nav a:hover {
@@ -60,7 +66,7 @@
 
         /* Sahifa va mahsulot kartalari uslubi */
         .container {
-            padding-top: 70px;
+            padding: 30px 0px;
             margin: 0 auto;
             max-width: 1280px !important;
         }
@@ -70,10 +76,12 @@
             /* height: 262.61px; */
             padding: 65px;
             margin: 10px;
-            background: white;
+            background: rgba(255, 255, 255, 0.144);
+
             border-radius: 8px;
             display: inline-block;
             text-align: center;
+            cursor: pointer;
         }
 
         .black {
@@ -179,6 +187,119 @@
             font-weight: 500;
             font-size: 16px;
         }
+
+        .big-box {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: start;
+        }
+
+
+        @media (max-width: 768px) {
+            .header {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+            }
+
+            .header-logo h2 {
+                font-size: 24px;
+            }
+
+            .header-nav {
+                margin-top: 10px;
+            }
+
+            .header-nav a {
+                margin: 0 5px;
+                font-size: 14px;
+            }
+
+            .post-button {
+                margin-top: 10px;
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .father-div {
+                display: flex;
+                flex-direction: column;
+            }
+
+            aside.profile-section {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .profile-card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .profile-image {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+            }
+
+            .profile-details {
+                margin-top: 10px;
+            }
+
+            .progress-bar {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .progress-fill {
+                height: 10px;
+            }
+
+            .main-section {
+                display: none;
+            }
+
+            .news-section .slider {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .prev-btn,
+            .next-btn {
+                font-size: 20px;
+                margin: 5px;
+            }
+
+            .slides {
+                display: flex;
+                overflow-x: scroll;
+                scroll-behavior: smooth;
+            }
+
+            .slide {
+                flex: 0 0 auto;
+                width: 90%;
+                /* Mobil uchun mos kenglik */
+                margin: 0 auto;
+            }
+
+
+            .big-box {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 
@@ -189,11 +310,12 @@
     <div class="header">
         <div class="header-logo">
             <a href="{% url 'main' %}">
-                <h2 style="margin: 0;">DevStep</h2>
+                <img src="{% static 'img/logo.svg' %}" alt="">
             </a>
         </div>
         <div class="header-nav">
-            <a href="{% url 'main' %}">O'rganish</a>
+            <a href="{% url 'main' %}">Asosiy</a>
+            <a href="{% url 'direction_list' %}">O'rganish</a>
             <a href="{% url 'shop' %}">Shop</a>
         </div>
         <a class="post-button" href="{% url 'logout' %}">Chqish</a>
@@ -211,15 +333,17 @@
 
         </div>
 
-        {% for history in histories %}
+        <div class="big-box">
+            {% for history in histories %}
 
-        <div class="product-card">
-            <img src="{{ history.product.photo.url }}" alt="{{ history.product.name }}" class="product-image">
-            <h3>{{ history.product.name }}</h3>
-            <p>{{ history.product.price }} Coins</p>
+            <div class="product-card">
+                <img src="{{ history.product.photo.url }}" alt="{{ history.product.name }}" class="product-image">
+                <h3>{{ history.product.name }}</h3>
+                <p>{{ history.product.price }} Coins</p>
+            </div>
+
+            {% endfor %}
         </div>
-
-        {% endfor %}
     </div>
 
 
