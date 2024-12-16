@@ -6,13 +6,7 @@ urlpatterns = [
     path('main/', main_view, name='main'),
     path('dashboard/', group_list, name='group_list'),
     path('dashboard/group/<int:group_id>/', student_list, name='group_students'),
-
     path('dashboard/<int:student_id>/<int:amount>/', update_coins, name='dashboard'),
-    # re_path(r'^dashboard/(?P<student_id>[0-9])/(?P<amount>-?[0-9])/$', decrease_coins, name='dashboard'),
-    re_path(r'^dashboard/(?P<student_id>[0-9])/(?P<amount>-?[0-9])/$', update_coins, name='dashboard'),
-
-    # path('dashboard/<int:student_id>/<int:amount>/', decrease_coins, name='dashboard'),
-
 
     path('shop/', shop_view, name='shop'),
     path('shop/buy/<int:product_id>/', buy_product, name='buy_product'),

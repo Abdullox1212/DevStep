@@ -163,11 +163,11 @@
                 <td>{{ student.total_coins }}</td>
                 <td>{{ student.coins_today }}</td>
                 <td>
-                    <a href="{% url 'dashboard' student.id 2 %}" class="coin-btn btn-subtract">-2</a>
-                    <a href="{% url 'dashboard' student.id 1 %}" class="coin-btn btn-add">1</a>
-                    <a href="{% url 'dashboard' student.id 3 %}" class="coin-btn btn-add">3</a>
-                    <a href="{% url 'dashboard' student.id 5 %}" class="coin-btn btn-add">5</a>
-                    <a href="{% url 'dashboard' student.id 10 %}" class="coin-btn btn-add">10</a>
+                    <a href="{% url 'dashboard' student_id=student.id amount=2 %}" class="coin-btn btn-subtract">-2</a>
+                    <a href="{% url 'dashboard' student_id=student.id amount=1 %}" class="coin-btn btn-add">1</a>
+                    <a href="{% url 'dashboard' student_id=student.id amount=3 %}" class="coin-btn btn-add">3</a>
+                    <a href="{% url 'dashboard' student_id=student.id amount=5 %}" class="coin-btn btn-add">5</a>
+                    <a href="{% url 'dashboard' student_id=student.id amount=10 %}" class="coin-btn btn-add">10</a>
                 </td>
             </tr>
             {% endfor %}

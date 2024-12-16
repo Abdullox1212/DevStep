@@ -2,6 +2,26 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Product, PurchaseHistory, NewsImage, Direction, Month, Lesson, Group
 from django.contrib import messages
 import requests
+import sqlite3
+
+
+
+def get_telegram_id_by_modme_id(modme_id):
+    # SQLite ulanishini yaratish
+    connection = sqlite3.connect('db.sqlite3')
+    cursor = connection.cursor()
+
+    # `modme_id` bilan tekshirish
+    cursor.execute("SELECT telegram_bot_register FROM accounts_user WHERE modme_id = ?", (modme_id,))
+    result = cursor.fetchone()
+
+    # Ulanishni yopish
+    connection.close()
+
+    # Agar natija mavjud bo'lsa, uni qaytarish, aks holda None
+    if result:
+        return result[0]
+    return "aaaaaaaaaaaaaaaaaaaa"
 
 def login_view(request):
     if request.method == 'POST':
@@ -69,20 +89,61 @@ def student_list(request, group_id):
     students = User.objects.filter(group=group)
     return render(request, 'dashboard.html', {'students': students})
 
+
+
+def send_message(chat_id, text):
+    url = f"https://api.telegram.org/bot7370433819:AAEGOPlCEVFwq7jG4EaHjeiSw5D2hlQwe5A/sendMessage"
+    payload = {
+        "chat_id": chat_id,
+        "text": text
+    }
+    try:
+
+        response = requests.post(url, data=payload)
+        if response.status_code == 200:
+            print("Xabar yuborildi!")
+        else:
+            print(f"Xatolik: {response.status_code}, javob: {response.text}")
+    except Exception as e:
+        print(f"Xabar yuborishda xatolik: {e}")
+
+
+
+
 def update_coins(request, student_id, amount):
     student = User.objects.get(id=student_id)
-    modme_id = request.POST.get('modme_id')
+
 
     if amount <= 2 and amount != 1:
         student.total_coins -= amount
         student.coins_today -= amount
         student.save()  
-        return redirect('dashboard')
+
+        chat_id = student.telegram_bot_register
+        print(chat_id)
+        if chat_id:
+            text = f"""
+Sizdan {amount}🌕 coin minus qilindi !
+
+            """
+            send_message(chat_id, text)
+            
+        return redirect('group_list')
     else:
         student.total_coins += amount
         student.coins_today += amount
         student.save()
-        return redirect('dashboard')
+
+        chat_id = student.telegram_bot_register
+
+        if chat_id:
+
+            text = f"""
+Sizga {amount}🌕 coin qo'yildi !
+
+"""
+            send_message(chat_id, text)
+        return redirect('group_list')
 
 
 

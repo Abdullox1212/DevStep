@@ -19,6 +19,8 @@ class User(models.Model):
     last_visit = models.DateField(default=0)
     total_coins = models.IntegerField(default=0)
     coins_today = models.IntegerField(default=0)
+    telegram_bot_register = models.IntegerField()
+
 
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='groups', null=True, blank=True)
     def save(self, *args, **kwargs):

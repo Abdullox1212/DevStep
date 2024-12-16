@@ -1,8 +1,7 @@
-from django.test import TestCase
+import requests
 
-# Create your tests here.
+TOKEN = "7370433819:AAEGOPlCEVFwq7jG4EaHjeiSw5D2hlQwe5A"
+url = f"https://api.telegram.org/bot{TOKEN}/deleteWebhook"
 
-
-son = -2
-
-print(type(son))
+response = requests.get(url)
+print(response.json())
