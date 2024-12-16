@@ -6,10 +6,6 @@ import threading
 import asyncio
 
 
-def start_bot():
-    from bot import start_bot
-    asyncio.run(start_bot())  
-
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
@@ -23,8 +19,6 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     
-    bot_thread = threading.Thread(target=start_bot, daemon=True)
-    bot_thread.start()
     
     execute_from_command_line(sys.argv)
 
