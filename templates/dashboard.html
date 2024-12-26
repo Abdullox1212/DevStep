@@ -21,7 +21,8 @@
             background-color: #f9f9f9;
             color: #333;
             padding: 20px;
-            overflow-x: hidden; /* Gorizontal scrollni olib tashlash */
+            overflow-x: hidden;
+            /* Gorizontal scrollni olib tashlash */
         }
 
         h1 {
@@ -39,7 +40,8 @@
             overflow: hidden;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 15px;
             text-align: center;
             border-bottom: 1px solid #f1f1f1;
@@ -91,16 +93,19 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #2ecc71; /* Scrollni tutqich rangi */
+            background: #2ecc71;
+            /* Scrollni tutqich rangi */
             border-radius: 10px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #27ae60; /* Hover paytidagi rang */
+            background: #27ae60;
+            /* Hover paytidagi rang */
         }
 
         ::-webkit-scrollbar-track {
-            background: #ecf0f1; /* Scroll fon rangi */
+            background: #ecf0f1;
+            /* Scroll fon rangi */
             border-radius: 10px;
         }
 
@@ -110,7 +115,8 @@
                 font-size: 12px;
             }
 
-            th, td {
+            th,
+            td {
                 padding: 8px;
             }
 
@@ -131,7 +137,8 @@
                 box-shadow: none;
             }
 
-            th, td {
+            th,
+            td {
                 font-size: 11px;
                 padding: 6px;
             }
@@ -140,6 +147,65 @@
                 padding: 5px;
             }
         }
+
+        .radio-container {
+    display: inline-block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+    color: #333;
+}
+
+.radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.radio-container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.radio-container input:checked ~ .checkmark {
+    background-color: #22ff00;
+}
+
+.radio-container input:checked ~ .checkmark.unpaid {
+    background-color: #f44336;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.radio-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.radio-container .checkmark:after {
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
     </style>
 </head>
 
@@ -149,29 +215,82 @@
         <table>
             <tr>
                 <th>Studentlar</th>
-                <th>Level</th>
+                <th>To'lov</th>
                 <th>Oxirgi kirishi</th>
                 <th>Hamma</th>
-                <th>Bugungi</th>
                 <th>Qo'yish</th>
             </tr>
             {% for student in students %}
             <tr>
                 <td>{{ student.name }} </td>
-                <td>{{ student.league }} </td>
+                <td>
+                    <form class="payment-form" method="POST" data-student-id="{{ student.id }}">
+                        {% csrf_token %}
+                        <label class="radio-container">
+                            <input type="radio" name="payment_status_{{ student.id }}" value="paid" {% if student.payment_status == 'paid' %}checked{% endif %}>
+                            <span class="checkmark"></span> To‘langan
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="payment_status_{{ student.id }}" value="unpaid" {% if student.payment_status == 'unpaid' %}checked{% endif %}>
+                            <span class="checkmark {% if student.payment_status == 'unpaid' %}unpaid{% endif %}"></span> To‘lanmagan
+                        </label>
+                    </form>
+                    <!-- <p>{% if student.is_paid_this_month %}Bu oy to'langan{% else %}Bu oy to'lanmagan{% endif %}</p> -->
+                </td>
                 <td>{{ student.last_visit }} </td>
                 <td>{{ student.total_coins }}</td>
-                <td>{{ student.coins_today }}</td>
                 <td>
+                {% if student.payment_status == 'paid' %}
                     <a href="{% url 'dashboard' student_id=student.id amount=2 %}" class="coin-btn btn-subtract">-2</a>
                     <a href="{% url 'dashboard' student_id=student.id amount=1 %}" class="coin-btn btn-add">1</a>
                     <a href="{% url 'dashboard' student_id=student.id amount=3 %}" class="coin-btn btn-add">3</a>
                     <a href="{% url 'dashboard' student_id=student.id amount=5 %}" class="coin-btn btn-add">5</a>
                     <a href="{% url 'dashboard' student_id=student.id amount=10 %}" class="coin-btn btn-add">10</a>
+                {% else %}
+                    <a href="{% url 'group_list'%}" class="coin-btn btn-subtract" style="pointer-events: none; background-color: #bdc3c7;">-2</a>
+                    <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">1</a>
+                    <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">3</a>
+                    <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">5</a>
+                    <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">10</a>
+                {% endif %}
                 </td>
             </tr>
             {% endfor %}
-        </table>
+            </table>
+            </div>
+
+    <script>
+        document.querySelectorAll('.coin-btn').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                fetch(this.href).then(() => window.location.reload());
+            });
+        });
+
+        document.querySelectorAll('.payment-form input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                const form = this.closest('.payment-form');
+                const studentId = form.dataset.studentId;
+                const paymentStatus = this.value;
+
+                fetch(`/update_payment_status/${studentId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ payment_status: paymentStatus })
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('To‘lov statusi yangilandi');
+                    } else {
+                        alert('Xatolik yuz berdi, qayta urinib ko‘ring!');
+                    }
+                });
+            });
+        });
+    </script>
+    </table>
     </div>
 
     <script>
@@ -179,6 +298,29 @@
             button.addEventListener('click', function (e) {
                 e.preventDefault();
                 fetch(this.href).then(() => window.location.reload());
+            });
+        });
+
+        document.querySelectorAll('.payment-form input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                const form = this.closest('.payment-form');
+                const studentId = form.dataset.studentId;
+                const paymentStatus = this.value;
+
+                fetch(`/update_payment_status/${studentId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ payment_status: paymentStatus })
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('To‘lov statusi yangilandi');
+                    } else {
+                        alert('Xatolik yuz berdi, qayta urinib ko‘ring!');
+                    }
+                });
             });
         });
     </script>

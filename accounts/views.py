@@ -23,65 +23,78 @@ def get_telegram_id_by_modme_id(modme_id):
         return result[0]
     return "aaaaaaaaaaaaaaaaaaaa"
 
+from django.views.decorators.csrf import csrf_protect
+@csrf_protect
 def login_view(request):
     if request.method == 'POST':
         modme_id = request.POST.get('modme_id')
         password = request.POST.get('password')
-        
-        try:
-            user = User.objects.get(modme_id=modme_id)  # Foydalanuvchini modme_id orqali olish
-            print(user.password)
-            if password == user.password:  # Parolni tekshirish
-                request.session['user_id'] = user.id  # Sessiyaga foydalanuvchini saqlash
-                request.session['modme_id'] = modme_id
-                return redirect('main')  # Muvaffaqiyatli kirish holatida yo'naltirish
-            else:
-                return render(request, 'login.html', {'error': 'Modme ID yoki parol noto‘g‘ri'})
-        except User.DoesNotExist:
-            return render(request, 'login.html', {'error': 'Modme ID yoki parol noto‘g‘ri'})
 
+        user = User.objects.filter(modme_id=modme_id).first()  # Foydalanuvchini topish
+        if user and user.password == password:  # Parolni tekshirish
+            if user.payment_status == 'paid':
+                request.session['user_id'] = user.id  # Foydalanuvchini sessiyada saqlash
+                return redirect('main')
+            else:
+                return render(request, 'login.html', {'error': f'{user.name}, To‘lovni amalga oshirmagansiz!'})
+
+        else:
+            return render(request, 'login.html', {'error': 'Modme ID yoki parol noto‘g‘ri'})
     return render(request, 'login.html')
 
 
 def logout(request):
-    return login_view(request)
+    request.session.flush()  # Sessiyani tozalash
+    return redirect('login')
+
 
 def main_view(request):
-    images = NewsImage.objects.all()    
-    modme_id = request.session.get('modme_id')
-    if not modme_id:
-        return redirect('login')  # Agar modme_id mavjud bo‘lmasa, login sahifasiga qaytaramiz
+    user_id = request.session.get('user_id')  # Sessiyadan foydalanuvchi ID ni olish
+    if not user_id:
+        return redirect('login')  # Foydalanuvchi sessiyasiz bo'lsa, login sahifasiga qaytarish
+
+    user = User.objects.filter(id=user_id).first()
+    if not user:
+        request.session.flush()  # Agar user topilmasa, sessiyani o'chirish
+        return redirect('login')
+
+    # Levelni hisoblash
+    if user.total_coins < 100:
+        user.level = 1
+    elif user.total_coins < 200:
+        user.level = 2
+    elif user.total_coins < 300:
+        user.level = 3
+    elif user.total_coins < 400:
+        user.level = 4
+    elif user.total_coins < 500:
+        user.level = 5
+
+    context = {
+        'images': NewsImage.objects.all(),
+        'user': user,
+    }
+    return render(request, 'index.html', context)
 
 
-
-    try:
-        user = User.objects.get(modme_id=modme_id)
-
-
-
-        if user.total_coins < 100:
-            user.level = 1
-        elif user.total_coins < 200:
-            user.level = 2
-        elif user.total_coins < 300:
-            user.level = 3
-        elif user.total_coins < 400:
-            user.level = 4
-        elif user.total_coins < 500:
-            user.level = 5
-
-        context = {
-            'images': images,
-            'user': user,
-        }
-        return render(request, 'index.html', context)
-    except User.DoesNotExist:
-        return redirect('login')  # Agar user topilmasa, login sahifasiga qaytaramiz
-    
 
 def group_list(request):
-    groups = Group.objects.all()  # Barcha guruhlarni olish
-    return render(request, 'group_dashboard.html', {'groups': groups})
+    user_id = request.session.get('user_id')  # Sessiyadan foydalanuvchi ID ni olish
+    if not user_id:
+        return redirect('login')  # Sessiya mavjud emas
+
+    user = User.objects.filter(id=user_id).first()  # Foydalanuvchini olish
+    if not user:  
+        request.session.flush()  # Yaroqsiz sessiya tozalanadi
+        return redirect('login')
+
+    # Admin sifatida tekshirish (masalan, maxsus modme_id orqali)
+    if user.is_admin:
+        groups = Group.objects.all()  # Barcha guruhlarni olish
+        return render(request, 'group_dashboard.html', {'groups': groups})
+
+    # Huquqsiz foydalanuvchini qaytarish
+    return redirect('login')
 
 
 def student_list(request, group_id):
@@ -119,14 +132,14 @@ def update_coins(request, student_id, amount):
         student.coins_today -= amount
         student.save()  
 
-        chat_id = student.telegram_bot_register
-        print(chat_id)
-        if chat_id:
-            text = f"""
-Sizdan {amount}🌕 coin minus qilindi !
+#         chat_id = student.telegram_bot_register
+#         print(chat_id)
+#         if chat_id:
+#             text = f"""
+# Sizdan {amount}🌕 coin minus qilindi !
 
-            """
-            send_message(chat_id, text)
+#             """
+#             send_message(chat_id, text)
             
         return redirect('group_list')
     else:
@@ -134,15 +147,15 @@ Sizdan {amount}🌕 coin minus qilindi !
         student.coins_today += amount
         student.save()
 
-        chat_id = student.telegram_bot_register
+#         chat_id = student.telegram_bot_register
 
-        if chat_id:
+#         if chat_id:
 
-            text = f"""
-Sizga {amount}🌕 coin qo'yildi !
+#             text = f"""
+# Sizga {amount}🌕 coin qo'yildi !
 
-"""
-            send_message(chat_id, text)
+# """
+#             send_message(chat_id, text)
         return redirect('group_list')
 
 
@@ -160,13 +173,15 @@ def shop_view(request):
 
 def buy_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    # user = get_object_or_404(User, id=request.user.id)  
-    modme_id = request.session.get('modme_id')
-    user = User.objects.get(modme_id=modme_id)  # Foydalanuvchini modme_id orqali olish
+    user_id = request.session.get('user_id')  # Sessiyadan foydalanuvchi ID ni olish
+    if not user_id:
+        return redirect('login') 
+    
+
+    user = User.objects.filter(id=user_id).first() # Foydalanuvchini modme_id orqali olish
 
 
     if user.total_coins < product.price:
-        messages.error(request, "")
         return render(request, 'okey.html', {'msg': 'Coinlaringiz yetarli emas!'})
         # return redirect('shop')  # Mablag‘ yetarli bo‘lmasa shop sahifasiga qaytaradi
 
@@ -210,18 +225,18 @@ def buy_product(request, product_id):
         print("Xabar muvaffaqiyatli yuborildi!")
     else:
         print(f"Xato: {response.text}")
-    return render(request, 'okey.html', {'msg': f'{product.name}ni sotib oldingiz! ', 'ssg': f"Shanba kuni sizda {product.name}ni topshiramiz!" })
+    return render(request, 'okey.html', {'msg': f'{product.name}ni sotib oldingiz! ', 'ssg': f"Shanba kuni sizga {product.name}ni topshiramiz!" })
 
 
 
 
 def history_view(request):
-    modme_id = request.session.get('modme_id')
-    if not modme_id:
-        return redirect('login')
+    user_id = request.session.get('user_id')  # Sessiyadan foydalanuvchi ID ni olish
+    if not user_id:
+        return redirect('login') 
     
 
-    user = User.objects.filter(modme_id=modme_id).first()
+    user = User.objects.filter(id=user_id).first()
     if not user:
         return redirect('login')
     else:
@@ -353,3 +368,38 @@ Yangi vazifa yuborildi:
             return render(request, "lesson_detail.html", {"lesson": lesson})
 
     return render(request, "lesson_detail.html", {"lesson": lesson})
+
+
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def update_payment_status(request, student_id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        payment_status = data.get('payment_status')
+
+        user = User.objects.filter(id=student_id).first()
+        if user:
+            user.payment_status = payment_status  # To‘lov holatini yangilash
+            user.save()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error', 'message': 'Talaba topilmadi'}, status=404)
+
+    return JsonResponse({'status': 'error', 'message': 'Noto‘g‘ri so‘rov'}, status=400)
+
+
+from django.core.management.base import BaseCommand
+from accounts.models import User
+from django.utils import timezone
+
+class Command(BaseCommand):
+    help = 'Reset payment status to unpaid for all students'
+
+    def handle(self, *args, **kwargs):
+        students = User.objects.all()
+        for student in students:
+            student.payment_status = 'unpaid'
+            student.save()
+        self.stdout.write(self.style.SUCCESS('Successfully reset payment status for all students'))

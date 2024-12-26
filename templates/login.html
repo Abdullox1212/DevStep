@@ -170,7 +170,7 @@
             /* Yuqorida ko'rinishi uchun */
             font-family: Arial, Helvetica, sans-serif;
             font-size: 40px;
-            box-shadow: rgb(255, 255, 255) 0px 2px 4px, rgb(255, 255, 255) 0px 7px 13px -3px, rgb(255, 255, 255) 0px -3px 0px inset;
+            box-shadow: rgb(255, 143, 143) 0px 2px 4px, rgb(255, 99, 99) 0px 7px 13px -3px, rgb(255, 74, 74) 0px -3px 0px inset;
         }
 
 
@@ -212,8 +212,8 @@
     <div class="error-message">{{ error }}</div>
     {% endif %}
 
-    <form method="post">
-        {% csrf_token %}
+    <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
         <h3>Tizimga kirish</h3>
 
 

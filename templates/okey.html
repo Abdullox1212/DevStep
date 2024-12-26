@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,7 +45,7 @@
 
     </style>
     <div class="father">
-    {% if msg and ssg %}
+    {% if msg or ssg %}
     <h1>{{ msg }}</h1>
     <h2>{{ ssg }}</h2>
     {% endif %}

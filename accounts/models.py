@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Group(models.Model):
     name = models.CharField(max_length=100)
@@ -20,6 +21,9 @@ class User(models.Model):
     total_coins = models.IntegerField(default=0)
     coins_today = models.IntegerField(default=0)
     telegram_bot_register = models.IntegerField()
+    is_admin = models.BooleanField(default=False) 
+    payment_status = models.CharField(max_length=10, choices=[('paid', 'To‘langan'), ('unpaid', 'To‘lanmagan')], default='unpaid')
+    last_payment_date = models.DateTimeField(null=True, blank=True)
 
 
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='groups', null=True, blank=True)
@@ -29,9 +33,12 @@ class User(models.Model):
 
     def __str__(self):
         return f"{self.modme_id} {self.name}"
-
-
-
+    
+    def is_paid_this_month(self):
+        if self.last_payment_date:
+            return self.last_payment_date.month == timezone.now().month and self.last_payment_date.year == timezone.now().year
+        return False
+    
 
 class Product(models.Model):
     name = models.CharField(max_length=100)  # Mahsulot nomi
