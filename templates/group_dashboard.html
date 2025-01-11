@@ -7,104 +7,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - DevStep</title>
     <link rel="website icon" type="png" href="{% static 'img/icon.png' %}">
-
-</head>
-<body>
     <style>
 
-
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            cursor: url('{% static 'img/cursor.png' %}'), auto;
+        }
         body {
-        background-color: #f9f9f9;
+            /* background: linear-gradient(to right, #2c3e50, #4ca1af); */
+            background: linear-gradient(to right, #1e3c72, #688ecf);
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
 
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            margin: 20px 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: start;
+            padding: 20px;
+        }
+
+        .card {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 20px;
+            border-radius: 20px;
+            width: 300px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.186);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #ffffff;
+            margin-bottom: 15px;
         }
 
         a {
             text-decoration: none;
         }
 
-        .card-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: start;
-        padding: 20px;
-        background-color: #f9f9f9;
-        }
-
-        .card {
-        border: 1px solid #e0e0e0;
-        padding: 20px;
-        border-radius: 12px;
-        width: 260px;
-        text-align: center;
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        background-color: #fff;
-        font-family: 'Arial', sans-serif;
-        }
-
-
-        @media screen and (max-width: 500px){
-            .card-container{
-                display: flex;
+        @media screen and (max-width: 500px) {
+            .card-container {
                 flex-direction: column;
                 align-items: center;
-                justify-content: center;
             }
         }
-
-
-        .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .card h3 {
-        font-size: 1.5rem;
-        color: #333;
-        margin-bottom: 10px;
-        font-family: 'Roboto', sans-serif;
-        }
-
-        .card h2 {
-            color: black;
-        }
-
-        .card p {
-        font-size: 1rem;
-        color: #555;
-        margin-bottom: 15px;
-        font-family: 'Roboto', sans-serif;
-        }
-
-        .card button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 6px;
-        background-color: #007bff;
-        color: #fff;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        font-family: 'Arial', sans-serif;
-        }
-
-        .card button:hover {
-        background-color: #0056b3;
-        }
-
     </style>
-    <h1 style="font-family: 'Roboto', sans-serif; text-align: center;">Guruhlar</h1>
+</head>
+
+<body>
+    <h1>Guruhlar</h1>
     <div class="card-container">
         {% for group in groups %}
         <a href="{% url 'group_students' group.id %}">
-        <div class="card">
-            <h2>{{ group.name }}</h2>
-            <p>Ustoz: {{ group.teacher }}</p>
-            <p>Vaqt: {{ group.time }}</p>
-
+            <div class="card">
+                <h2>{{ group.name }}</h2>
+                <p>Ustoz: {{ group.teacher }}</p>
+                <p>Vaqt: {{ group.time }}</p>
             </div>
         </a>
         {% endfor %}
     </div>
 </body>
+
+</html>

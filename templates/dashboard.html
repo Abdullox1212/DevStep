@@ -14,6 +14,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: url('{% static 'img/cursor.png' %}'), auto;
         }
 
         body {
@@ -242,13 +243,13 @@
                 <td>
                 {% if student.payment_status == 'paid' %}
                     <a href="{% url 'dashboard' student_id=student.id amount=2 %}" class="coin-btn btn-subtract">-2</a>
-                    <a href="{% url 'dashboard' student_id=student.id amount=1 %}" class="coin-btn btn-add">1</a>
+                    <a href="{% url 'dashboard' student_id=student.id amount=1 %}" class="coin-btn btn-add">2</a>
                     <a href="{% url 'dashboard' student_id=student.id amount=3 %}" class="coin-btn btn-add">3</a>
                     <a href="{% url 'dashboard' student_id=student.id amount=5 %}" class="coin-btn btn-add">5</a>
                     <a href="{% url 'dashboard' student_id=student.id amount=10 %}" class="coin-btn btn-add">10</a>
                 {% else %}
                     <a href="{% url 'group_list'%}" class="coin-btn btn-subtract" style="pointer-events: none; background-color: #bdc3c7;">-2</a>
-                    <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">1</a>
+                    <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">2</a>
                     <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">3</a>
                     <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">5</a>
                     <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">10</a>

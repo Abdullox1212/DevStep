@@ -23,6 +23,8 @@ def get_telegram_id_by_modme_id(modme_id):
         return result[0]
     return "aaaaaaaaaaaaaaaaaaaa"
 
+
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
 @csrf_protect
 def login_view(request):
@@ -34,6 +36,8 @@ def login_view(request):
         if user and user.password == password:  # Parolni tekshirish
             if user.payment_status == 'paid':
                 request.session['user_id'] = user.id  # Foydalanuvchini sessiyada saqlash
+                user.last_visit = timezone.now()  # Kirgan vaqtini yangilash
+                user.save()
                 return redirect('main')
             else:
                 return render(request, 'login.html', {'error': f'{user.name}, To‘lovni amalga oshirmagansiz!'})
@@ -105,7 +109,7 @@ def student_list(request, group_id):
 
 
 def send_message(chat_id, text):
-    url = f"https://api.telegram.org/bot7370433819:AAEGOPlCEVFwq7jG4EaHjeiSw5D2hlQwe5A/sendMessage"
+    url = f"https://api.telegram.org/bot7468217626:AAEI6PsD5wjUlXlRDcdftxi2vnn9udebj80/sendMessage"
     payload = {
         "chat_id": chat_id,
         "text": text
@@ -129,33 +133,13 @@ def update_coins(request, student_id, amount):
 
     if amount <= 2 and amount != 1:
         student.total_coins -= amount
-        student.coins_today -= amount
         student.save()  
-
-#         chat_id = student.telegram_bot_register
-#         print(chat_id)
-#         if chat_id:
-#             text = f"""
-# Sizdan {amount}🌕 coin minus qilindi !
-
-#             """
-#             send_message(chat_id, text)
             
         return redirect('group_list')
     else:
         student.total_coins += amount
-        student.coins_today += amount
         student.save()
 
-#         chat_id = student.telegram_bot_register
-
-#         if chat_id:
-
-#             text = f"""
-# Sizga {amount}🌕 coin qo'yildi !
-
-# """
-#             send_message(chat_id, text)
         return redirect('group_list')
 
 
@@ -212,7 +196,7 @@ def buy_product(request, product_id):
 💸 Qolgan Coinlar: {user.total_coins} 🪙\n"""
 
 
-    url = f"https://api.telegram.org/bot6824723033:AAGp5vLJnkuFgnLT9Xrrsy1nNea8ECRcDdw/sendPhoto"
+    url = f"https://api.telegram.org/bot7468217626:AAEI6PsD5wjUlXlRDcdftxi2vnn9udebj80/sendPhoto"
     with open(image, "rb") as file:
         response = requests.post(
             url,
