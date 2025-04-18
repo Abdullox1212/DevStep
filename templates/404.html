@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahifa topilmadi</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(120deg, #ff4e50, #f9d423);
+            color: #fff;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 6rem;
+            margin: 0;
+            color: #ff6b6b;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        p {
+            font-size: 1.3rem;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: #f9d423;
+            background-color: #ff4e50;
+            border-radius: 25px;
+            transition: all 0.3s ease-in-out;
+            border: 2px solid transparent;
+        }
+
+        a:hover {
+            color: #ff4e50;
+            background-color: #fff;
+            border: 2px solid #ff4e50;
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>404</h1>
+        <p>Kechirasiz, qidirayotgan sahifangiz topilmadi.<br> Iltimos, URL manzilini tekshiring yoki bosh sahifaga qayting.</p>
+        <a href="{% url 'main' %}">Bosh sahifaga qaytish</a>
+    </div>
+</body>
+</html>

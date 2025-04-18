@@ -38,6 +38,7 @@ def login_view(request):
                 request.session['user_id'] = user.id  # Foydalanuvchini sessiyada saqlash
                 user.last_visit = timezone.now()  # Kirgan vaqtini yangilash
                 user.save()
+                
                 return redirect('main')
             else:
                 return render(request, 'login.html', {'error': f'{user.name}, To‘lovni amalga oshirmagansiz!'})
@@ -294,8 +295,11 @@ def send_file_to_telegram(bot_token, chat_id, file_path=None, caption=None):
 # Vazifa jo'natish funksiyasi
 def submit_task(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
-    modme_id = request.session.get('modme_id')
-    user = User.objects.get(modme_id=modme_id)
+    user_id = request.session.get('user_id')  # Sessiyadan foydalanuvchi ID ni olish
+    if not user_id:
+        return redirect('login')  # Sessiya mavjud emas
+    
+    user = get_object_or_404(User, id=user_id)  # Foydalanuvchini olish
 
     if request.method == "POST":
         zip_file = request.FILES.get('zip_file')  # Foydalanuvchi yuklagan fayl
@@ -315,6 +319,7 @@ def submit_task(request, lesson_id):
             caption = f"""
 Vazifa yuborildi:
 - O'quvchi: {user.name}
+- Yo'nalish: {lesson.month.direction.name}
 - Dars: {lesson.title}
 - Guruh: {user.group.name}
 - Izoh: {comment or "Yo'q"}
@@ -333,6 +338,7 @@ Vazifa yuborildi:
             caption = f"""
 Yangi vazifa yuborildi:
 - O'quvchi: {user.name}
+- Yo'nalish: {lesson.month.direction.name}
 - Dars: {lesson.title}
 - Guruh: {user.group.name}
 - Izoh: {comment or "Yo'q"}
@@ -387,3 +393,8 @@ class Command(BaseCommand):
             student.payment_status = 'unpaid'
             student.save()
         self.stdout.write(self.style.SUCCESS('Successfully reset payment status for all students'))
+
+
+
+def not_working(request):
+    return render(request, 'not_working.html')        

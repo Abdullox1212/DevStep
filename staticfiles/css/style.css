@@ -5,19 +5,21 @@
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
+    cursor: url('../img/cursor.png'), auto;
 }
 
 body {
-    background-color: #f4f6f9;
+    background: linear-gradient(to right, #6A5ACD, #89CFF0);
     color: #333;
 }
 
 header {
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background-color: #fff;
+    background: linear-gradient(to right, #6A5ACD, #89CFF0);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -27,8 +29,33 @@ header {
     color: #333;
 }
 
+
+h2 {
+    color: white;
+
+}
+
 .logo span {
     color: #ff5733;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+a h2{
+    text-decoration: none;
+    color: #333;
+    font-family: 'Courier New', Courier, monospace;
+    
+
+
+}
+
+a:hover {
+    text-decoration: none;
+
 }
 
 nav a {
@@ -56,20 +83,26 @@ nav a {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1500px;
     margin: 0 auto;
 
 }
 
 
 .profile-card {
-    background: #fff;
+    /* backdrop-filter: blur(10px); */
+    background-color: rgba(255, 255, 255, 0.13);
     border-radius: 8px;
+    border: 2px solid rgba(223, 223, 223, 0.637);
     padding: 25px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     text-align: center;
-    height: 550px;
+    height: 502px;
 
+}
+
+.profile-card h3, .profile-card p{
+    color: white;
 }
 
 .profile-image {
@@ -151,10 +184,10 @@ nav a {
 }
 
 .more {
-    background: #3b3b3b;
+    background: #ffffff23;
     color: #fff;
     padding: 10px 20px;
-    border: none;
+    border: 2px solid #fff;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 40px;
@@ -163,10 +196,12 @@ nav a {
 
 
 .news-section {
-    background: #fff;
     padding: 25px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.13);
+    border-radius: 8px;
+    border: 2px solid rgba(223, 223, 223, 0.637);
 }
 
 .father-div {
@@ -180,6 +215,7 @@ nav a {
 .news-section h2 {
     font-size: 22px;
     margin-bottom: 15px;
+    color: white;
 }
 
 .news-item h3 {
@@ -226,7 +262,6 @@ button {
 
 
 .header {
-    background-color: #fff;
     padding: 15px 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -243,15 +278,16 @@ button {
 }
 
 .header-logo img {
-    height: 40px;
+    height: 80px;
     margin-right: 10px;
 }
 
 .header-nav a {
     margin: 0 15px;
-    color: #333;
+    color: #ffffff;
     text-decoration: none;
     font-weight: bold;
+    transition: all 0.3s ease;
 }
 
 .header-nav a:hover {
@@ -274,33 +310,33 @@ button {
 
 
 
+
 .slider {
     position: relative;
-    width: 100%; /* Slayder kengligi */
-    max-width: 800px; /* Maksimal kenglikni oshirdik */
-    height: 500px; /* Balandlikni oshirdik */
-    margin: auto;
     overflow: hidden;
-    border-radius: 15px; /* Yumaloq burchaklar */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sochma soyalar */
+    width: 100%;
+    max-width: 800px; /* Maksimal kenglik */
+    margin: 0 auto;
+    /* height: 499px; */
 }
 
 .slides {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    width: 100%;
 }
 
 .slide {
     min-width: 100%;
-    flex-shrink: 0;
-    height: 300px; /* Slayder balandligi bilan bir xil */
+    display: flex;
+    justify-content: center; /* Rasmlarni gorizontal markazlash */
+    align-items: center; /* Rasmlarni vertikal markazlash */
 }
 
 .slide img {
-    /* width: 100%; */
-    /* height: 100%; */
-    object-fit: cover;
-    display: block;
+    width: 100%; /* Kenglikni konteynerga moslashtirish */
+    height: 100%; /* Balandlikni konteynerga moslashtirish */
+    
 }
 
 .prev-btn, .next-btn {
@@ -310,10 +346,11 @@ button {
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    z-index: 1000;
     border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 10;
 }
 
 .prev-btn {
@@ -328,3 +365,264 @@ button {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
+
+
+
+
+
+
+    @media (max-width: 768px) {
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .header-logo h2 {
+            font-size: 24px;
+        }
+
+        .header-nav {
+            margin-top: 10px;
+        }
+
+        .header-nav a {
+            margin: 0 5px;
+            font-size: 14px;
+        }
+
+        .post-button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .container {
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .father-div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        aside.profile-section {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            height: 550px;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        .profile-details {
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 10px;
+        }
+
+        .main-section {
+            display: none;
+        }
+
+        .news-section .slider {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .prev-btn, .next-btn {
+            font-size: 20px;
+            margin: 5px;
+        }
+
+        .slides {
+            display: flex;
+            overflow-x: scroll;
+            scroll-behavior: smooth;
+        }
+
+        .slide {
+            flex: 0 0 auto;
+            width: 90%; /* Mobil uchun mos kenglik */
+            margin: 0 auto;
+        }
+
+        .card-container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+
+
+.content {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    font-family: 'Arial', sans-serif;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: start;
+    margin-top: 20px;
+}
+
+.card {
+    background:rgba(255, 255, 255, 0);
+    border: 2px solid white ;
+    border-radius: 15px;
+    padding: 20px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    background: linear-gradient(to right,  #89CFF0, #6A5ACD,);
+
+}
+
+.card h3 {
+    margin-bottom: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.card p {
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.button {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.212);
+    color: white;
+    padding: 12px 18px;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid white;
+
+}
+
+.button:hover {
+    background: linear-gradient(to right, #6A5ACD, #89CFF0);
+    transition: all 5s ease;
+
+    /* transform: translateY(-2px); */
+}
+
+.lesson-detail {
+    margin-bottom: 20px;
+    color: #444;
+    font-size: 16px;
+}
+
+.task-upload {
+    border: none;
+    padding: 20px;
+    border-radius: 15px;
+    background: #f7f9fc;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.task-upload h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.upload-section {
+    text-align: center;
+    border: 2px dashed #8e44ad;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    background-color: #fcf8ff;
+    transition: background 0.3s ease;
+}
+
+.upload-section:hover {
+    background-color: #f0e6ff;
+}
+
+.upload-label img {
+    width: 60px;
+    margin-bottom: 10px;
+    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.link-section input,
+.comment-section textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #fdfdfd;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.submit-section {
+    text-align: right;
+}
+
+.submit-section p {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #f44336, #ff7961);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn-submit:hover {
+    background: linear-gradient(135deg, #d32f2f, #f05a4b);
+    transform: translateY(-2px);
+}

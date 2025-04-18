@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure--y9nrcy_ut0prdtii^=orqs8@fhlr9%%+6l@flv22)-b(4$n=2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -117,9 +117,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static/']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'  # Statik fayllar URL'lari
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # collectstatic uchun yig'iladigan papka
+
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+
+
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
@@ -129,5 +133,3 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-ALLOWED_HOSTS = ['*']  # vaqtinchalik. Oxirida PythonAnywhere URL ni qo'shasiz.

