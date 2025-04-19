@@ -105,3 +105,17 @@ class Attendance(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.date} - {self.status}"
+    
+
+
+class Video(models.Model):
+    CATEGORY_CHOICES = [
+        ('HTML', 'HTML'),
+        ('CSS', 'CSS'),
+    ]
+    title = models.CharField(max_length=255)  # Video sarlavhasi
+    video_id = models.CharField(max_length=50)  # YouTube video ID
+    category = models.CharField(max_length=10, choices=CATEGORY_CHOICES)  # Kategoriya (HTML yoki CSS)
+
+    def __str__(self):
+        return f"{self.title} ({self.category})"

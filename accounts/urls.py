@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import login_view, main_view, update_coins, group_list, shop_view, buy_product, logout, history_view, direction_list, month_list, lesson_detail, lesson_list, submit_task, student_list, update_payment_status, not_working
+from .views import login_view, main_view, update_coins, group_list, shop_view, buy_product, logout, history_view, direction_list, month_list, lesson_detail, lesson_list, submit_task, student_list, update_payment_status, video_list
 
 urlpatterns = [
     path('', login_view, name='login'),
@@ -18,6 +18,7 @@ urlpatterns = [
     path('learn/<int:direction_id>/<int:month_id>/<int:lesson_id>/', lesson_detail, name='lesson_detail'),
     path('lesson/<int:lesson_id>/submit/', submit_task, name='submit_task'),    
     path('update_payment_status/<int:student_id>/', update_payment_status, name='update_payment_status'),
+    path('videos/', video_list, name='videos'),
 ]
 # urlpatterns = [
 #     path('', not_working, name='login'),

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import User, Product, PurchaseHistory, NewsImage, Direction, Month, Lesson, Group
+from .models import User, Product, PurchaseHistory, NewsImage, Direction, Month, Lesson, Group, Video
 from django.contrib import messages
 import requests
 import sqlite3
@@ -398,3 +398,9 @@ class Command(BaseCommand):
 
 def not_working(request):
     return render(request, 'not_working.html')        
+
+
+def video_list(request):
+    html_videos = Video.objects.filter(category='HTML')  # HTML videolarni olish
+    css_videos = Video.objects.filter(category='CSS')  # CSS videolarni olish
+    return render(request, 'video_list.html', {"html_videos": html_videos, "css_videos": css_videos})
