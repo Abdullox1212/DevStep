@@ -6,18 +6,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dars - DevStep</title>
-    <link rel="website icon" type="png" href="{% static 'img/icon.png' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .lesson-detail {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .lesson-detail h2 {
+            font-size: 2.5rem;
+            color: #007bff;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .lesson-detail p {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.8;
+            margin: 0 auto;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .task-upload h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .upload-label {
+            display: block;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .upload-label:hover {
+            background-color: #dfdfdf;
+        }
+
+        input[type="url"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="url"]:focus,
+        textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .btn-submit {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .error {
+            color: rgb(255, 255, 255);
+            background-color: rgb(255, 0, 0);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+            width: 50%;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 
 <body>
     <div class="header">
         <div class="header-logo">
             <a href="{% url 'main' %}">
-                <img src="{% static 'img/logo2.svg' %}" alt="">
-
+                <img src="{% static 'img/logo2.svg' %}" alt="DevStep Logo">
             </a>
-
         </div>
         <div class="header-nav">
             <a href="{% url 'main' %}">Asosiy</a>
@@ -26,12 +125,8 @@
         </div>
         <a class="post-button" href="{% url 'logout' %}">Chiqish</a>
     </div>
-    <main class="container content">
-        <div class="lesson-detail">
-            <h2>{{ lesson.title }}</h2>
-            <p>{{ lesson.description }}</p>
 
-        </div>
+    <main class="container">
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -39,6 +134,10 @@
             {% endfor %}
         </ul>
         {% endif %}
+        <div class="lesson-detail">
+            <h2>{{ lesson.title }}</h2>
+            <p>{{ lesson.description }}</p>
+        </div>
 
 
 
@@ -47,12 +146,12 @@
             <form method="post" enctype="multipart/form-data" action="{% url 'submit_task' lesson.id %}">
                 {% csrf_token %}
 
-                <div class="upload-section">
-                    <label for="file-upload" class="upload-label">
+                <label for="file-upload" class="upload-label">
+                    <div class="upload-section">
                         Faylni yuklash uchun shu yerga bosing
-                    </label>
-                    <input type="file" name="zip_file" id="file-upload" hidden>
-                </div>
+                        <input type="file" name="zip_file" id="file-upload" hidden>
+                    </div>
+                </label>
 
                 <div class="link-section">
                     <input type="url" name="link" placeholder="Linkni kiriting">
@@ -67,9 +166,7 @@
                 </div>
             </form>
         </div>
-
     </main>
-
 </body>
 
 </html>

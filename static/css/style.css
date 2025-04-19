@@ -545,16 +545,12 @@ button {
     /* transform: translateY(-2px); */
 }
 
-.lesson-detail {
-    margin-bottom: 20px;
-    color: #444;
-    font-size: 16px;
-}
 
 .task-upload {
     border: none;
     padding: 20px;
-    border-radius: 15px;
+    border-end-end-radius: 10px;
+    border-end-start-radius: 10px;
     background: #f7f9fc;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.05);
     text-align: center;
@@ -574,11 +570,14 @@ button {
     cursor: pointer;
     margin-bottom: 20px;
     background-color: #fcf8ff;
-    transition: background 0.3s ease;
+    color:#d675ff;
+    transition: background 0.4s ease;
+
 }
 
 .upload-section:hover {
     background-color: #f0e6ff;
+    color: #880abe;
 }
 
 .upload-label img {
