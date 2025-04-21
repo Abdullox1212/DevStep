@@ -14,20 +14,36 @@
 <style></style>
 
 <body>
-    <div class="header">
-        <div class="header-logo">
-            <a href="{% url 'main' %}">
-                <img src="{% static 'img/logo2.svg' %}" alt="">
+    <header class="header">
+        <div class="header-content">
+            <a href="{% url 'main' %}" class="logo">
+                <img src="{% static 'img/logo.svg' %}" alt="DevStep Logo">
             </a>
+
+            <nav class="header-nav">
+                <a href="{% url 'main' %}">Asosiy</a>
+                <a href="{% url 'videos' %}">O'rganish</a>
+                <a href="{% url 'direction_list' %}">Vazifalar</a>
+                <a href="{% url 'shop' %}">Shop</a>
+            </nav>
+            <a href="{% url 'logout' %}" class="post-button">Chiqish</a>
+
+            <div class="header-right">
+
+                <!-- Burger icon -->
+                <div class="burger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                    
+                </div>
+            </div>
         </div>
-        <div class="header-nav">
-            <a href="{% url 'main' %}">Asosiy</a>
-            <a href="{% url 'videos' %}">O'rganish</a>
-            <a href="{% url 'direction_list' %}">Vazifalar</a>
-            <a href="{% url 'shop' %}">Shop</a>
-        </div>
-        <a class="post-button" href="{% url 'logout' %}">Chiqish</a>
-    </div>
+    </header>
+
+
+
 
     <div class="container">
         <div class="father-div">
@@ -97,6 +113,13 @@
         const slide = document.querySelectorAll('.slide');
         const prevBtn = document.querySelector('.prev-btn');
         const nextBtn = document.querySelector('.next-btn');
+        const burger = document.querySelector('.burger');
+        const nav = document.querySelector('.header-nav');
+
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
 
         let currentIndex = 0;
         let slideInterval;

@@ -11,31 +11,41 @@
         .lesson-detail {
             text-align: center;
             padding: 20px;
-            background-color: #f9f9f9;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #222831ec, #1b1b1fea);
+
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
         }
 
         .lesson-detail h2 {
             font-size: 2.5rem;
-            color: #007bff;
+            color: white;
             margin-bottom: 15px;
             font-weight: bold;
         }
 
         .lesson-detail p {
             font-size: 1.2rem;
-            color: #555;
+            color: white;
             line-height: 1.8;
             margin: 0 auto;
             max-width: 700px;
             text-align: center;
+            
+        }
+
+        .task-upload {
+            background: linear-gradient(135deg, #222831ec, #1b1b1fea);
+
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
 
         .task-upload h3 {
             margin-bottom: 15px;
-            color: #333;
+            color: white;
         }
 
         .upload-label {
@@ -115,7 +125,7 @@
     <div class="header">
         <div class="header-logo">
             <a href="{% url 'main' %}">
-                <img src="{% static 'img/logo2.svg' %}" alt="DevStep Logo">
+                <img src="{% static 'img/logo.svg' %}" alt="DevStep Logo">
             </a>
         </div>
         <div class="header-nav">

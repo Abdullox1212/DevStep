@@ -8,111 +8,181 @@
     <link rel="website icon" type="png" href="{% static 'img/icon.png' %}">
 
     <style>
-        /* Umumiy uslub */
-
         * {
-            padding: 0;
-            margin: 0;
             box-sizing: border-box;
-            cursor: url('{% static 'img/cursor.png' %}'), auto;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #6A5ACD, #89CFF0);
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
+            cursor: url('../img/cursor.png'), auto;
         }
 
-        /* Header uslubi */
-        .header {
-            background: linear-gradient(to right, #6A5ACD, #89CFF0);
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #222831, #1B1B1F);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header.header {
+            /* background: linear-gradient(to right, #0f2027, #203a43, #2c5364); */
+            background: linear-gradient(135deg, #222831, #1B1B1F);
             padding: 15px 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            gap: 30px;
         }
 
+        .logo img {
+            height: 40px;
+        }
 
-
-        .header-logo {
+        .header-nav {
             display: flex;
-            align-items: center;
-        }
-
-        .header-logo img {
-            height: 80px;
-            margin-right: 10px;
+            gap: 30px;
+            transition: all 0.4s ease;
         }
 
         .header-nav a {
-            margin: 0 15px;
             color: #ffffff;
             text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-
-        }
-
-
-        a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        a h2 {
-            text-decoration: none;
-            color: #333;
-            font-family: 'Courier New', Courier, monospace;
-
-
-        }
-
-        a:hover {
-            color: #b4b4b4;
-            text-decoration: none;
-            transition: color 0.5s ease;
-
-        }
-
-        nav a {
-            margin: 0 20px;
-            text-decoration: none;
-            color: #333;
             font-weight: 500;
             font-size: 16px;
+            transition: color 0.3s;
+            cursor: pointer;
+
         }
 
-
         .header-nav a:hover {
-            color: #FF5733;
+            color: #ff8c00;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 50px;
         }
 
         .post-button {
-            padding: 10px 20px;
-            color: #ff5733;
-            border: 2px solid #ff5733;
-            background: none;
-            border-radius: 5px;
-            cursor: pointer;
+            padding: 8px 18px;
             font-size: 14px;
-            margin-right: 20px;
+            border: 2px solid #ff8c00;
+            color: #ff8c00;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .post-button:hover {
+            background: #ff8c00;
+            color: #fff;
+        }
+
+        /* Burger menu */
+        .burger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .burger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-nav {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                /* background: #2c5364; */
+                background: linear-gradient(135deg, #222831ec, #1b1b1fea);
+
+
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                padding: 0;
+                overflow: hidden;
+                max-height: 0;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.4s ease;
+            }
+
+            .header-nav.active {
+                padding: 20px 0;
+                max-height: 300px;
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .burger {
+                display: flex;
+            }
+
+            /* Burger active animatsiyasi */
+            .burger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .burger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .burger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(6px, -6px);
+            }
         }
 
 
 
-        .container {
-            padding: 30px 0px;
-            /*yangi */
-            margin: 0 auto;
-            max-width: 1280px !important;
+        .profile-card {
+            /* backdrop-filter: blur(10px); */
+            background-color: rgba(255, 255, 255, 0.11);
+            border-radius: 8px;
+            border: 2px solid rgba(223, 223, 223, 0.637);
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            height: 502px;
+
         }
+
+
+
+
 
         .product-card {
-            /* width: 305px; */
+            width: 305px;
             /* height: 262.61px; */
             padding: 65px;
             margin: 10px;
@@ -125,7 +195,8 @@
         }
 
 
-        .product-card h3, .product-card p {
+        .product-card h3,
+        .product-card p {
             color: white;
         }
 
@@ -155,6 +226,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
+            color: black;
         }
 
         .modal-content {
@@ -326,21 +398,33 @@
 
     <!-- Header -->
 
-    <div class="header">
-        <div class="header-logo">
-            <a href="{% url 'main' %}">
-                <img src="{% static 'img/logo2.svg' %}" alt="">
+    <header class="header">
+        <div class="header-content">
+            <a href="{% url 'main' %}" class="logo">
+                <img src="{% static 'img/logo.svg' %}" alt="DevStep Logo">
             </a>
 
+            <nav class="header-nav">
+                <a href="{% url 'main' %}">Asosiy</a>
+                <a href="{% url 'videos' %}">O'rganish</a>
+                <a href="{% url 'direction_list' %}">Vazifalar</a>
+                <a href="{% url 'shop' %}">Shop</a>
+            </nav>
+            <a href="{% url 'logout' %}" class="post-button">Chiqish</a>
+
+            <div class="header-right">
+
+                <!-- Burger icon -->
+                <div class="burger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+
+                </div>
+            </div>
         </div>
-        <div class="header-nav">
-            <a href="{% url 'main' %}">Asosiy</a>
-            <a href="{% url 'videos' %}">O'rganish</a>
-            <a href="{% url 'direction_list' %}">Vazifalar</a>
-            <a href="{% url 'shop' %}">Shop</a>
-        </div>
-        <a class="post-button" href="{% url 'logout' %}">Chiqish</a>
-    </div>
+    </header>
 
 
     <!-- Asosiy mazmun qismi -->
@@ -388,6 +472,13 @@
     </div>
 
     <script>
+        const burger = document.querySelector('.burger');
+        const nav = document.querySelector('.header-nav');
+
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
         function openModal(productId, productName, productPrice) {
             document.getElementById("product-name").textContent = "Tovar nomi: " + productName;
             document.getElementById("product-price").textContent = "Narxi: " + productPrice + " Coins";
