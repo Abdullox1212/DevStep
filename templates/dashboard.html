@@ -65,6 +65,22 @@
             gap: 5px;
         }
 
+        tr {
+            transition: background-color 0.3s ease;
+
+        }
+
+        tr:hover {
+            background-color: #faf6f6;
+        }
+
+        .payment-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
         .coin-btn {
             padding: 8px 12px;
             font-size: 14px;
@@ -215,7 +231,7 @@
     <div style="overflow-x: auto;">
         <table>
             <tr>
-                <th>Studentlar</th>
+                <th>O'quvchilalar</th>
                 <th>To'lov</th>
                 <th>Oxirgi kirishi</th>
                 <th>Hamma</th>
@@ -223,7 +239,7 @@
             </tr>
             {% for student in students %}
             <tr>
-                <td>{{ student.name }} </td>
+                <td>{{ forloop.counter }}. {{ student.name }} </td>
                 <td>
                     <form class="payment-form" method="POST" data-student-id="{{ student.id }}">
                         {% csrf_token %}
@@ -241,32 +257,45 @@
                 <td>{{ student.last_visit }} </td>
                 <td>{{ student.total_coins }}</td>
                 <td>
-                {% if student.payment_status == 'paid' %}
-                    <a href="{% url 'dashboard' student_id=student.id amount=2 %}" class="coin-btn btn-subtract">-2</a>
-                    <a href="{% url 'dashboard' student_id=student.id amount=1 %}" class="coin-btn btn-add">2</a>
-                    <a href="{% url 'dashboard' student_id=student.id amount=3 %}" class="coin-btn btn-add">3</a>
-                    <a href="{% url 'dashboard' student_id=student.id amount=5 %}" class="coin-btn btn-add">5</a>
-                    <a href="{% url 'dashboard' student_id=student.id amount=10 %}" class="coin-btn btn-add">10</a>
-                {% else %}
-                    <a href="{% url 'group_list'%}" class="coin-btn btn-subtract" style="pointer-events: none; background-color: #bdc3c7;">-2</a>
-                    <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">2</a>
-                    <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">3</a>
-                    <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">5</a>
-                    <a href="{% url 'group_list'%}" class="coin-btn btn-add" style="pointer-events: none; background-color: #bdc3c7;">10</a>
-                {% endif %}
-                </td>
+                    {% if student.payment_status == 'paid' %}
+                        <a href="{% url 'dashboard' student_id=student.id amount=2 %}?action=subtract" class="coin-btn btn-subtract">-2</a>
+                        <a href="{% url 'dashboard' student_id=student.id amount=2 %}?action=add" class="coin-btn btn-add">2</a>
+                        <a href="{% url 'dashboard' student_id=student.id amount=3 %}?action=add" class="coin-btn btn-add">3</a>
+                        <a href="{% url 'dashboard' student_id=student.id amount=5 %}?action=add" class="coin-btn btn-add">5</a>
+                        <a href="{% url 'dashboard' student_id=student.id amount=10 %}?action=add" class="coin-btn btn-add">10</a>
+                    {% else %}
+                        <a href="#" class="coin-btn btn-subtract disabled-link" style="background-color: #bdc3c7; pointer-events: none;">-2</a>
+                        <a href="#" class="coin-btn btn-add disabled-link" style="background-color: #bdc3c7; pointer-events: none;">2</a>
+                        <a href="#" class="coin-btn btn-add disabled-link" style="background-color: #bdc3c7; pointer-events: none;">3</a>
+                        <a href="#" class="coin-btn btn-add disabled-link" style="background-color: #bdc3c7; pointer-events: none;">5</a>
+                        <a href="#" class="coin-btn btn-add disabled-link" style="background-color: #bdc3c7; pointer-events: none;">10</a>
+                    {% endif %}
+                </td>             
             </tr>
             {% endfor %}
             </table>
             </div>
 
     <script>
-        document.querySelectorAll('.coin-btn').forEach(button => {
+    document.querySelectorAll('.coin-btn').forEach(button => {
+        if (!button.classList.contains('disabled-link')) { // Faqat enabled linklar
             button.addEventListener('click', function (e) {
                 e.preventDefault();
-                fetch(this.href).then(() => window.location.reload());
+                fetch(this.href)
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            alert('Xatolik yuz berdi!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Server bilan aloqa qilishda xatolik!');
+                    });
             });
-        });
+        }
+    });
 
         document.querySelectorAll('.payment-form input[type="radio"]').forEach(radio => {
             radio.addEventListener('change', function () {
@@ -293,38 +322,6 @@
     </script>
     </table>
     </div>
-
-    <script>
-        document.querySelectorAll('.coin-btn').forEach(button => {
-            button.addEventListener('click', function (e) {
-                e.preventDefault();
-                fetch(this.href).then(() => window.location.reload());
-            });
-        });
-
-        document.querySelectorAll('.payment-form input[type="radio"]').forEach(radio => {
-            radio.addEventListener('change', function () {
-                const form = this.closest('.payment-form');
-                const studentId = form.dataset.studentId;
-                const paymentStatus = this.value;
-
-                fetch(`/update_payment_status/${studentId}/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'
-                    },
-                    body: JSON.stringify({ payment_status: paymentStatus })
-                }).then(response => {
-                    if (response.ok) {
-                        console.log('To‘lov statusi yangilandi');
-                    } else {
-                        alert('Xatolik yuz berdi, qayta urinib ko‘ring!');
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>

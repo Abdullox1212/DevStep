@@ -129,23 +129,18 @@ def send_message(chat_id, text):
 
 
 def update_coins(request, student_id, amount):
-    student = User.objects.get(id=student_id)
+    student = get_object_or_404(User, id=student_id)
+    action = request.GET.get('action')
 
-
-    if amount <= 2 and amount != 1:
-        student.total_coins -= amount
-        student.save()  
-            
-        return redirect('group_list')
-    else:
+    if action == 'subtract':
+        student.total_coins = max(0, student.total_coins - amount)
+    else:  # default add
+        
         student.total_coins += amount
-        student.save()
-
-        return redirect('group_list')
 
 
-
-
+    student.save()
+    return redirect('group_list')
 
 
     
